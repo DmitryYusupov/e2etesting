@@ -11,33 +11,41 @@ import ru.yusdm.e2etesting.simple.config.ApplicationConfig
 import ru.yusdm.e2etesting.simple.model.Person
 import ru.yusdm.e2etesting.simple.service.PersonService
 
-/*@SpringBootTest
+@SpringBootTest(
+    properties = [
+        "spring.profiles.active=test",
+        "spring.application.admin.enabled=true",
+        "spring.application.admin.jmx-name=org.springframework.boot:type=Admin3,name=SpringApplication3"
+    ],
+)
 @EnableConfigurationProperties(ApplicationConfig::class)
-@Transactional*/
+@Transactional
 class PersonSaveTest {
 
-  /*  @Autowired
+    @Autowired
     private lateinit var applicationConfig: ApplicationConfig
 
     @Autowired
     private lateinit var personService: PersonService
-*/
+
     @Test
     fun testPersonSave() {
-      println("Test")
-  /*      val restTemplate = RestTemplate()
-        val person = Person(1, "test")
+        println("Test begin")
+        val restTemplate = RestTemplate()
+        val personId = 1L
+        val person = Person(personId, "test")
         restTemplate.postForEntity(
             "http://${applicationConfig.host}:${applicationConfig.port}/api/person",
             person,
             Unit::class.java
         )
 
-        val factPerson = personService.getById(1)
-        Assertions.assertEquals(factPerson.id, 1)
+        println("get by id")
+        val factPerson = personService.getById(personId)
+        val count = personService.deleteById(personId)
+        println("deleted by id $count")
+        Assertions.assertEquals(factPerson.id, 1L)
         Assertions.assertEquals(factPerson.name, "test")
-
-   */
     }
 
 }

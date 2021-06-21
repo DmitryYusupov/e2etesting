@@ -8,10 +8,12 @@ import org.junit.platform.launcher.LauncherDiscoveryRequest
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder
 import org.junit.platform.launcher.core.LauncherFactory
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener
+import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import ru.yusdm.e2etesting.simple.PersonSaveTest
+import java.time.LocalDateTime
 
 
 @Service
@@ -20,6 +22,7 @@ class TestPersonSaveSchedulerService {
     private val listener = SummaryGeneratingListener()
     private var launcher: Launcher
     private var testRequest: LauncherDiscoveryRequest
+    private val log = LoggerFactory.getLogger(TestPersonSaveSchedulerService::class.java)
 
     init {
         testRequest = LauncherDiscoveryRequestBuilder.request()
@@ -35,7 +38,11 @@ class TestPersonSaveSchedulerService {
     fun test() {
         launcher.execute(testRequest)
         val summary = listener.summary
-        println()
+        if (summary.testsFailedCount > 0) {
+            with(summary.failures[0]) {
+                log.error(this.testIdentifier.displayName + ": " + exception)
+            }
+        }
     }
 
 }
@@ -43,8 +50,9 @@ class TestPersonSaveSchedulerService {
 @Component
 class TestPersonSaveScheduler(val testPersonSaveSchedulerService: TestPersonSaveSchedulerService) {
 
-    @Scheduled(fixedDelay = 3000)
+    @Scheduled(fixedDelay = 10_000, initialDelay = 3000)
     fun schedule() {
+        println("In schedule " + LocalDateTime.now())
         testPersonSaveSchedulerService.test()
     }
 

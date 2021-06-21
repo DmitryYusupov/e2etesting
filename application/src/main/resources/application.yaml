@@ -2,9 +2,12 @@ server:
   port: 8080
 
 spring:
+  main:
+    banner-mode: off
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
 
   datasource:

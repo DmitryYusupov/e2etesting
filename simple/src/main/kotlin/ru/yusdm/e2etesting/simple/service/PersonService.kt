@@ -13,7 +13,7 @@ class PersonService(private val personRepository: PersonRepository) {
         return personRepository.getById(id)
     }
 
-    fun deleteById(id: Long) {
-        personRepository.deleteById(id)
+    fun deleteById(id: Long): Int {
+        return personRepository.deleteById(id)
     }
 }

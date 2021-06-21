@@ -16,8 +16,8 @@ class PersonRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         ) { rs,_ -> Person(rs.getLong("id"), rs.getString("name")) }!!
     }
 
-    fun deleteById(id: Long) {
-        jdbcTemplate.update(
+    fun deleteById(id: Long): Int {
+        return jdbcTemplate.update(
             "DELETE FROM person WHERE id = :id",
             MapSqlParameterSource("id", id)
         )

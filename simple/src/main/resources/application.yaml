@@ -6,8 +6,12 @@ server:
   port: 8081
 
 spring:
+  main:
+    banner-mode: off
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/javaquiz?currentSchema=e2etesting
     username: test
     password: 111
+
+logging.level.root: WARN
