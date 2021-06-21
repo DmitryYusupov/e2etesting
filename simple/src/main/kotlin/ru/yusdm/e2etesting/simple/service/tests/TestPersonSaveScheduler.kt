@@ -1,6 +1,7 @@
 package ru.yusdm.e2etesting.simple.service.tests
 
 import org.junit.platform.engine.discovery.ClassNameFilter.includeClassNamePatterns
+import org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
 import org.junit.platform.engine.discovery.DiscoverySelectors.selectPackage
 import org.junit.platform.launcher.Launcher
 import org.junit.platform.launcher.LauncherDiscoveryRequest
@@ -10,19 +11,19 @@ import org.junit.platform.launcher.listeners.SummaryGeneratingListener
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
+import ru.yusdm.e2etesting.simple.PersonSaveTest
 
 
 @Service
 class TestPersonSaveSchedulerService {
 
     private val listener = SummaryGeneratingListener()
-    private lateinit var launcher: Launcher
-    private lateinit var testRequest: LauncherDiscoveryRequest
+    private var launcher: Launcher
+    private var testRequest: LauncherDiscoveryRequest
 
     init {
-        val testRequest = LauncherDiscoveryRequestBuilder.request()
-            .selectors(selectPackage("ru.yusdm.e2etesting.simple"))
-            .filters(includeClassNamePatterns(".*Test"))
+        testRequest = LauncherDiscoveryRequestBuilder.request()
+            .selectors(selectClass(PersonSaveTest::class.java))
             .build()
 
         launcher = LauncherFactory.create().apply {
@@ -33,6 +34,8 @@ class TestPersonSaveSchedulerService {
 
     fun test() {
         launcher.execute(testRequest)
+        val summary = listener.summary
+        println()
     }
 
 }
@@ -42,7 +45,7 @@ class TestPersonSaveScheduler(val testPersonSaveSchedulerService: TestPersonSave
 
     @Scheduled(fixedDelay = 3000)
     fun schedule() {
-      //  testPersonSaveSchedulerService.test()
+        testPersonSaveSchedulerService.test()
     }
 
 

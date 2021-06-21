@@ -6,6 +6,15 @@ plugins {
     kotlin("plugin.spring")
 }
 
+sourceSets.getByName("main") {
+    java.srcDir("src/main/kotlin")
+    java.srcDir("src/test/kotlin")
+}
+
+sourceSets.getByName("test") {
+    java.srcDir("src/test/kotlin")
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -15,8 +24,7 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.junit.platform:junit-platform-launcher")
-    runtimeOnly("com.h2database:h2")
-
+    runtimeOnly("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-test")
 
 
