@@ -6,14 +6,14 @@ plugins {
     kotlin("plugin.spring")
 }
 
-sourceSets.getByName("main") {
-    java.srcDir("src/main/kotlin")
-    java.srcDir("src/test/kotlin")
-}
-
-sourceSets.getByName("test") {
-    java.srcDir("src/test/kotlin")
-}
+//sourceSets.getByName("main") {
+//    java.srcDir("src/main/kotlin")
+//    java.srcDir("src/test/kotlin")
+//}
+//
+//sourceSets.getByName("test") {
+//    java.srcDir("src/test/kotlin")
+//}
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")

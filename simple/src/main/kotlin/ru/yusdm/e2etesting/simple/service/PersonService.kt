@@ -8,7 +8,9 @@ import ru.yusdm.e2etesting.simple.repository.PersonRepository
 @Service
 @Transactional
 class PersonService(private val personRepository: PersonRepository) {
-
+ init {
+     println("Person service init")
+ }
     fun getById(id: Long): Person {
         return personRepository.getById(id)
     }
